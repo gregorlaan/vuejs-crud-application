@@ -1,0 +1,18 @@
+html, body {
+    background-color: whitesmoke;
+}
+
+.paper {
+    padding: 15px;
+    background-color: white;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.custom-file.disabled {
+    opacity: .5!important;
+}
+
+.custom-file.disabled label{
+    border-color: lightgray!important;
+}

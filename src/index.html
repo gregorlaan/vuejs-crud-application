@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>VueJS CRUD Application</title>
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap@4.1.1/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@2.0.0-rc.11/dist/bootstrap-vue.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+
+        <b-container>
+            <b-row>
+
+                <b-col cols="12">
+                    <h1>VueJS CRUD Application</h1>
+                </b-col>
+
+                <b-col cols="12" class="paper">
+
+                    <b-alert v-if="alert.display" show :variant="alert.type" class="alert-dismissible">{{ alert.text }}
+                        <button type="button" @click="alert.display = false" aria-label="Close" class="close">×</button>
+                    </b-alert>
+
+                    <h2 v-if="form.id">Edit Application nr. {{ form.id }}</h2>
+
+                    <b-form @submit="submitForm" @reset="resetForm">
+                        <b-form-group id="firstName" label="Enter your First name" label-for="firstName" :invalid-feedback="inputInvalidFeedback(form.firstName)"
+                            :state="inputState(form.firstName)">
+                            <b-form-input id="firstName" :state="inputState(form.firstName)" v-model.trim="form.firstName"></b-form-input>
+                        </b-form-group>
+
+                        <b-form-group id="lastName" label="Enter your Last name" label-for="lastName" :invalid-feedback="inputInvalidFeedback(form.lastName)"
+                            :state="inputState(form.lastName)">
+                            <b-form-input id="lastName" :state="inputState(form.lastName)" v-model.trim="form.lastName"></b-form-input>
+                        </b-form-group>
+
+                        <b-form-group id="occupation" label="Select your Occupation" label-for="occupation" :invalid-feedback="selectInvalidFeedback(form.occupation)"
+                            :state="selectState(form.occupation)">
+                            <b-form-select id="occupation" :state="selectState(form.occupation)" v-model.trim="form.occupation">
+                                <option :value="0">Please select an Occupation</option>
+                                <option v-for="item in occupationData" :value="item.code">{{ item.category + " - " + item.name + "(" + item.code + ")" }}</option>
+                            </b-form-select>
+                        </b-form-group>
+
+                        <b-form-group :state="Boolean(file)" invalid-feedback="Please upload you application" id="application" label="Upload your Application(PDF)" label-for="application">
+                            <b-form-file :class="{disabled: form.application}" :disabled="form.application !== null" :state="Boolean(file)" @change="fileSelected" id="application" accept="application/pdf" ref="fileinput" v-model="file" placeholder="Choose a file..."></b-form-file>
+                        </b-form-group>
+
+                        <div v-if="form.application" class="mb-3">
+                            <b-button :href="'uploads/' + fileName" size="sm" variant="outline-primary">
+                                {{ fileName }}
+                            </b-button>
+                        </div>
+
+                        <b-button v-if="!form.id" type="submit" variant="primary">Submit</b-button>
+                        <b-button v-if="form.id" type="submit" variant="secondary">Update</b-button>
+                        <b-button type="reset" variant="warning">Reset</b-button>
+                        <b-button v-if="form.id" @click="deleteApplication" variant="danger">Delete</b-button>
+                    </b-form>
+
+                </b-col>
+
+            </b-row>
+        </b-container>
+
+    </div>
+
+    <script src="vue.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+
+    <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@2.0.0-rc.11/dist/bootstrap-vue.js"></script>
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
